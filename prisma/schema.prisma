@@ -13,3 +13,50 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id Int @default(autoincrement()) @id
+  name String 
+  lastname String
+  email String @unique
+  password String
+  profileImage String?
+}
+
+model Company {
+  id Int @default(autoincrement()) @id
+  name String
+  address String
+  owner User? @relation(fields: [authorId], references: [id])
+  ownerId Int?
+  description String
+  companyImage String?
+}
+
+model Service {
+  id Int @default(autoincrement()) @id
+  name String
+  description String
+  price number
+  company Company? @relation(fields: [companyId], references: [id])
+  companyId Int?
+}
+
+model Client {
+  id Int @default(autoincrement()) @id
+  name: String
+  email: String 
+  company Company? @relation(fields: [companyId], references: [id])
+  companyId Int?
+}
+
+model Sales {
+  id Int @default(autoincrement()) @id
+  mount: number
+  company Company? @relation(fields: [companyId], references: [id])
+  companyId Int?
+  service Service? @relation(fields: [serviceId], references: [id])
+  serviceId Int?
+  cliente Client? @relation(fields: [clientId], references: [id])
+  clientId Int?
+}
