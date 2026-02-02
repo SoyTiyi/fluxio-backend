@@ -21,42 +21,59 @@ model User {
   email String @unique
   password String
   profileImage String?
+  companies Company[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Company {
   id Int @default(autoincrement()) @id
   name String
   address String
-  owner User? @relation(fields: [authorId], references: [id])
-  ownerId Int?
   description String
   companyImage String?
+  owner User? @relation(fields: [ownerId], references: [id])
+  ownerId Int?
+  services Service[]
+  clients Client[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Service {
   id Int @default(autoincrement()) @id
   name String
   description String
-  price number
+  price Decimal
+  duration Int
   company Company? @relation(fields: [companyId], references: [id])
   companyId Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Client {
   id Int @default(autoincrement()) @id
   name: String
-  email: String 
+  phone: String?
+  email: String?
   company Company? @relation(fields: [companyId], references: [id])
   companyId Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model Sales {
+model Sale {
   id Int @default(autoincrement()) @id
-  mount: number
+  amount Decimal
+  isPaid Boolean
   company Company? @relation(fields: [companyId], references: [id])
   companyId Int?
   service Service? @relation(fields: [serviceId], references: [id])
   serviceId Int?
   cliente Client? @relation(fields: [clientId], references: [id])
   clientId Int?
+  saleDate DateTime  @default(now()) 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
