@@ -54,9 +54,9 @@ model Service {
 
 model Client {
   id Int @default(autoincrement()) @id
-  name: String
-  phone: String?
-  email: String?
+  name String
+  phone String?
+  email String?
   company Company? @relation(fields: [companyId], references: [id])
   companyId Int?
   createdAt DateTime @default(now())
